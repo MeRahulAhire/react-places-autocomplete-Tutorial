@@ -98,5 +98,4 @@ handleChange = (e) => {
 		);
 	}
 }
-
 export default locationInput
