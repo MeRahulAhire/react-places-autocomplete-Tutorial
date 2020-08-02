@@ -1,68 +1,112 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 🚨 Alert - Before Starting to use this code (Please read it)
 
-## Available Scripts
 
-In the project directory, you can run:
+<h2> The issue with the video tutorial that I stated in [my video](https://youtu.be/-KOZwDkWpJE "How to Make an Auto Complete Search Input in React.js") is taken from the Library known as [React-Places-Autocomplete](https://www.npmjs.com/package/react-places-autocomplete) and it does work really well</h2>
 
-### `npm start`
+<h2>But, however the problem I faced with it, is that you may not able to able the state(as per the code below) of this library </h2>
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+import React, { Component } from 'react'
+import './App.css'
+import PlacesAutocomplete from 'react-places-autocomplete';
+export class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { address: '' };
+  }
+ 
+  handleChange = address => {
+    this.setState({ address });
+  };
+ 
+  render() {
+    return (
+      <div className="canvas">
+      <PlacesAutocomplete
+      value={this.state.address}
+      onChange={this.handleChange}
+      onSelect={this.handleSelect}
+    >
+      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+        <div>
+          <input
+            {...getInputProps({
+              placeholder: 'Search Places ...',
+              className: 'location-search-input',
+            })}
+          />
+          <div className="autocomplete-dropdown-container">
+            {loading && <div>Loading...</div>}
+            {suggestions.map(suggestion => {
+              
+              // inline style for demonstration purpose
+              const style = suggestion.active
+                ? { backgroundColor: '#42a5f5', cursor: 'pointer' }
+                : { backgroundColor: '#ffffff', cursor: 'pointer' };
+              return (
+                <div className="input-suggestion"
+                  {...getSuggestionItemProps(suggestion, {
+                    
+                    style,
+                  })}
+                >
+                <i class="material-icons">location_on  </i> <span>{suggestion.description}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </PlacesAutocomplete>
+      </div>
+    )
+  }
+}
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+export default App
+```
 
-### `npm test`
+<h2>
+✅ So, Do use the mentioned below(recommended).
+</h2>
+<h3>❕❗ Although I'd Say please try both and see first how the library works for your project requirement. If it works fine then go for it or else use the below ones</h3>
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+import React, { Component } from 'react';
+import './app.css';
 
-### `npm run build`
+export class locationInput extends Component {
+  state = {
+   location : '',
+  }
+handleChange = (e) => {
+   this.setState({location: this.state.location})
+  
+		function initAutocomplete() {
+			var input = document.getElementById('pac-input');
+			var searchBox = new window.google.maps.places.SearchBox(input);
+			searchBox.addListener('places_changed', function() {
+				this.setState({ CollegeName: document.getElementById('pac-input').value });
+			});
+		}
+  
+		initAutocomplete();
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+}
+	render() {
+		return (
+			<div>
+				<input
+					defaultValue={this.state.location}
+					onChange={this.handleChange}
+					id="pac-input"  // Do not change the value of id here. if you do, it wont work with google map API
+					className="controls"
+					type="text"
+					placeholder="Search your College"
+				/>
+			</div>
+		);
+	}
+}
+export default locationInput
+```
