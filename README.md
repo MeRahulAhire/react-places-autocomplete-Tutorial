@@ -110,6 +110,6 @@ handleChange = (e) => {
 }
 export default locationInput
 ```
-<h3>and don't forget to mention below script tag in your project</h3>
+<h3>and don't forget to mention below script tag in your project with API key from your GCP console</h3>
 
 <code><script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" type="text/javascript"></script></code>
